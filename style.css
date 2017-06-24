@@ -24,7 +24,7 @@ a:hover{
 #contents{
 	width: 400px;
 	height:400px;
-	margin: 100px auto;
+	margin: 0 auto 100px auto;
 	border-left: 2px solid #00ff00;
 	border-right: 2px solid #00ff00;
 	border-radius: 10px;
@@ -44,4 +44,15 @@ h1{
 	border-collapse:collapse;
 	margin:0;
 	font-weight: 2em;
+}
+
+#turn{
+	height: 50px;
+	width: 400px;
+	margin: 50px auto 0 auto;
+}
+
+#turnInfo{
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
 }

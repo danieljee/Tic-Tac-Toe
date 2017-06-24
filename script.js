@@ -84,10 +84,10 @@ var playerChosen = function(){
 					draw = true;
 					gameOver = true;
 				}
-				if(gameOver){
-					gameover();
-				}
 				nextTurn();
+				if(gameOver){
+					gameover();				
+				}		
 			});
 		}
 		contentDiv.style.opacity = '1';
@@ -102,16 +102,11 @@ var playerChosen = function(){
 }
 
 var nextTurn = function(){
-	if (player1Turn){
-		console.log("player1's turn");
-	} else {
-		console.log("player2's turn");
-	}
-	
+	turnPanel();
 	if (!player1Turn && onePlayer){
 		setTimeout(function(){		
 			computerMove();
-		}, 1000);		
+		}, 1500);		
 	}
 }
 
@@ -151,6 +146,7 @@ var computerMove = function(){
 			}
 		} else {//if the center is empty
 			boxList[4].innerHTML = player2;
+			availableBoxes.splice(availableBoxes.indexOf(4), 1);
 			player2list.push(4);
 		}
 	} else {//for the rest of the game,
@@ -158,7 +154,7 @@ var computerMove = function(){
 		if (!gameOver){//if none found, find if the player has any 
 			filltheblank(player2list, player1list);
 			if (player1Turn == false){
-				var boxNum = availableBoxes.splice(Math.floor(Math.random() * availableBoxes.length), 1);
+				var boxNum = availableBoxes.splice(Math.floor(Math.random() * availableBoxes.length), 1)[0];
 				boxList[boxNum].innerHTML = player2;
 				player2list.push(boxNum);
 			}
@@ -166,15 +162,14 @@ var computerMove = function(){
 	}
 	
 	player1Turn = true;
-	console.log("player1's turn");
 	if(availableBoxes.length == 0){
 		gameOver = true;
 		draw = true;
 	}
-	
+	turnPanel();
 	if (gameOver){
-		gameover();
-	}
+		gameover();	
+	} 
 }
 
  var filltheblank = function(playerlist1, playerlist2){	 
@@ -182,53 +177,53 @@ var computerMove = function(){
 		if (playerlist2.includes(playerlist2[i]+3) && !playerlist1.includes(playerlist2[i] + 6) && !playerlist1.includes(playerlist2[i] - 3)){ //vertically
 			if (playerlist2[i] <= 2){
 				boxList[playerlist2[i] + 6].innerHTML = player2;
-				player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 6),1)[0]);
-				if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+				player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 6),1)[0]); 
+				if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 			} else {
 				boxList[playerlist2[i] - 3].innerHTML = player2;
 				player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] - 3),1)[0]);
-				if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+				if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 			}
 		} else if (playerlist2.includes(playerlist2[i]+6) && !playerlist1.includes(playerlist2[i] + 3)){ //vertically but 1 space apart
 			boxList[playerlist2[i] + 3].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 3),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 1) && (playerlist2[i]  == 0 ||playerlist2[i]  == 3 || playerlist2[i]  == 6) && !playerlist1.includes(playerlist2[i] + 2)){ //horizontally
 			boxList[playerlist2[i] + 2].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 2),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 1) && (playerlist2[i]  == 1 ||playerlist2[i]  == 4 || playerlist2[i]  == 7) && !playerlist1.includes(playerlist2[i] - 1)){
 			boxList[playerlist2[i] - 1].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] - 1),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 2) && (playerlist2[i]  == 0 ||playerlist2[i]  == 3 || playerlist2[i]  == 6) && !playerlist1.includes(playerlist2[i] + 1)){//horizontally but 1 space apart
 			boxList[playerlist2[i] + 1].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 1),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		}else if (playerlist2.includes(playerlist2[i] + 4) && playerlist2[i]  == 0 && !playerlist1.includes(playerlist2[i] + 8)){ //diagonally
 			boxList[playerlist2[i] + 8].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 8),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 4) && playerlist2[i]  == 4 && !playerlist1.includes(playerlist2[i] - 4)) {
 			boxList[playerlist2[i] - 4].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i]  - 4),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 4) && playerlist2[i]  == 2 && !playerlist1.includes(playerlist2[i] + 2)){ //diagonally but from 2 to 6
 			boxList[playerlist2[i] + 2].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 2),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		}else if (playerlist2.includes(playerlist2[i] + 8) && !playerlist1.includes(playerlist2[i] + 4)){ //diagonally but 1 space apart
 			boxList[playerlist2[i] + 4].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 4),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 2) && playerlist2[i]  == 2 && !playerlist1.includes(playerlist2[i] + 4)){
 			boxList[playerlist2[i] + 4].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] + 4),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		} else if (playerlist2.includes(playerlist2[i] + 2) && playerlist2[i]  == 4 && !playerlist1.includes(playerlist2[i] -2)){
 			boxList[playerlist2[i] - 2].innerHTML = player2;
 			player2list.push(availableBoxes.splice(availableBoxes.indexOf(playerlist2[i] - 2),1)[0]);
-			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true;}
+			if (playerlist2 == player2list) {gameOver = true; console.log("gameover");} else {player1Turn = true; console.log("player's turn");}
 		}
 	}
  }	
@@ -263,6 +258,7 @@ var computerMove = function(){
  
  function gameover(){
 	contentDiv.style.opacity = '0';
+	document.getElementById("turnInfo").opacity = '0';
 	setTimeout(()=>{
 		if (draw){
 			contentDiv.innerHTML = "<h1>Draw!</h1><a href='' id='retry'>Try Again</a><a href='' id='reset'>Reset</a><br><br>";	
@@ -285,4 +281,38 @@ var computerMove = function(){
 		});
 		contentDiv.style.opacity = '1';
 	 }, 1000);
+ }
+ 
+ function turnPanel(){
+	 if (!gameOver){
+		if (player1Turn){
+			 if (onePlayer){
+				 document.getElementById("turnInfo").opacity = '0';
+				 setTimeout(function(){
+					 document.getElementById("turnInfo").innerHTML = "Your turn!";
+					 document.getElementById("turnInfo").opacity = '1';
+				 }, 1000);
+			 } else {
+				 document.getElementById("turnInfo").opacity = '0';
+				 setTimeout(function(){
+					 document.getElementById("turnInfo").innerHTML = "Player 1 Go!";
+					 document.getElementById("turnInfo").opacity = '1';
+				 }, 1000);
+			 }
+		 } else {
+			 if (onePlayer){
+				 document.getElementById("turnInfo").opacity = '0';
+				 setTimeout(function(){
+					 document.getElementById("turnInfo").innerHTML = "Computer's turn!";
+					 document.getElementById("turnInfo").opacity = '1';
+				 }, 1000);
+			 } else {
+				 document.getElementById("turnInfo").opacity = '0';
+				 setTimeout(function(){
+					 document.getElementById("turnInfo").innerHTML = "Player 2 Go!";
+					 document.getElementById("turnInfo").opacity = '1';
+				 }, 1000);
+			 }
+		 } 
+	 }
  }
